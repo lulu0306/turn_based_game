@@ -1,0 +1,21 @@
+
+main {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.grid-container{
+	display: grid;
+	grid-template-columns: 100px 100px 100px 100px 100px 100px 100px 100px 100px 100px;
+	grid-template-rows:  100px 100px 100px 100px 100px 100px 100px 100px 100px 100px;
+	width: 1000px;
+	height: 1000px;
+	position: relative;
+}
+
+.grid-item{
+	outline: 1px solid rgba(0,0,0.3);
+	background-color: lightblue;
+}
