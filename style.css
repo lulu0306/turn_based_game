@@ -22,5 +22,32 @@ main {
 
 
 .unavailable{
-	background-color: red;
+	background-color: red; 
+}
+
+
+.sword{
+background-color: grey;
+}
+
+.bomb1{
+	background-color: orange;
+}
+
+.bomb2{
+	background-color: pink;
+}
+
+.dinamite{
+	background-color: yellow;
+}
+
+
+.player1{
+	background-color:white;
+}
+
+.player2{
+	background-color: black;
+
 }

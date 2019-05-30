@@ -23,11 +23,14 @@ function generateRandomlyNumber(){
 
 function generateBarriers(){
 	for(let i =0; i < 9; i++){
-		let randomX = generateRandomlyNumber();
-		let randomY = generateRandomlyNumber();
+		let vector = {
+			randomX: generateRandomlyNumber(),
+			randomY: generateRandomlyNumber()
+		}
+
 		for(let j = 0; j < squaresArray.length; j++ ){
-			let statusX = parseInt(squaresArray[j].dataset.row)=== randomX;
-			let statusY = parseInt(squaresArray[j].dataset.col)=== randomY;
+			let statusX = parseInt(squaresArray[j].dataset.row)=== vector.randomX;
+			let statusY = parseInt(squaresArray[j].dataset.col)=== vector.randomY;
 			if (statusX && statusY ){
 				squaresArray[j].classList.add('unavailable');
 			}
@@ -36,4 +39,74 @@ function generateBarriers(){
 	}
 }
 
+
+
+//create weapons 
+
+
+
+let weaponsArray = [
+{
+	name: 'sword',
+	power: 40,
+	img: ''
+},
+{
+	name: 'bomb1',
+	power: 30,
+	img: ''
+},
+{
+	name: 'bomb2',
+	power: 20,
+	img: ''
+},
+{
+	name: 'dinamite',
+	power: 10,
+	img: ''
+}
+]
+
+
+
+
+const playersArray = [
+{
+	name: 'player1',
+	healthScore: 100,
+	img: ''
+},
+{
+	name: 'player2',
+	healthScore: 100,
+	img: ''
+}
+]
+
+
+function createItems(array){
+for(let i = 0; i < array.length; i++){
+		let vector = {
+			randomX: generateRandomlyNumber(),
+			randomY: generateRandomlyNumber()
+		}
+	for(let j = 0; j < squaresArray.length; j++ ){
+		let statusX = parseInt(squaresArray[j].dataset.row)=== vector.randomX;
+		let statusY = parseInt(squaresArray[j].dataset.col)=== vector.randomY;
+		if (statusX && statusY ){
+			squaresArray[j].classList.add(array[i].name);
+			}
+
+		}
+	}
+
+}
+
+$('.grid-container').on('click','.grid-item', function(){
+	console.log('square click :', $(this)[0].attribute[1].value);
+});
+
 generateBarriers()
+createItems(weaponsArray)
+createItems(playersArray)
