@@ -133,28 +133,40 @@ $('.grid-container').on('click','.grid-item', function(){
 	console.log('square click :', squareX,squareY);
 	console.log('playerX , playerY', playerX, playerY);
 
-	let xDiff = Math.abs(squareX - playerX);
-	let yDiff = Math.abs(squareY - playerY);
+	let xDiff = squareX - playerX;
+	let yDiff = squareY - playerY;
 
 	let tempArray = [];
 	if (xDiff === 0) {
 		console.log('moving along y')
-		for(let i = 0; i < yDiff +1; i++){
-			let tempObj = {tempX: playerX, tempY: playerY+ i}
-			console.log('tempObj',tempObj)
-			tempArray.push(tempObj)
-			console.log('tempArray',tempArray)
+		if(yDiff > 0) {
+			console.log('moving to the right')
+			for(let i = 1; i < yDiff +1; i++){
+				let tempObj = {tempX: playerX, tempY: playerY+ i}
+				console.log('tempObj',tempObj)
+				tempArray.push(tempObj)
+				console.log('tempArray',tempArray)
+			}
+
+		}else if (yDiff < 0){
+			console.log('moving to the left')
+			for(let i = 0; i < yDiff; i++){
+				let tempObj = {tempX: playerX, tempY: playerY+ i}
+				console.log('tempObj',tempObj)
+				tempArray.push(tempObj)
+				console.log('tempArray',tempArray)
+			}
 		}
+
 	}else{
 		console.log('moving along x')
-		for(let i = 0; i < xDiff +1; i ++){
+		for(let i = 1; i < xDiff +1; i ++){
 			let tempObj = {tempX: playerX + i, tempY: playerY}
 			console.log('tempObj',tempObj)
 			tempArray.push(tempObj)
 			console.log('tempArray',tempArray)
 		}
 	}
-
 });
 
 generateBarriers()
