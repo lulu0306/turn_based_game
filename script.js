@@ -13,6 +13,7 @@ const squaresArray = $('.grid-item').toArray()
 
 
 
+
 //create unavalaible squares on the map 
 
 function generateRandomlyNumber(){
@@ -75,36 +76,85 @@ const playersArray = [
 {
 	name: 'player1',
 	healthScore: 100,
-	img: ''
+	img: '',
+	position: {
+		playerX: '',
+		playerY: ''
+	}
 },
 {
 	name: 'player2',
 	healthScore: 100,
-	img: ''
+	img: '',
+	position: {
+		playerX: '',
+		playerY: ''
+	}
 }
 ]
 
 
 function createItems(array){
-for(let i = 0; i < array.length; i++){
+	console.log('array',array)
+	for(let i = 0; i < array.length; i++){
 		let vector = {
 			randomX: generateRandomlyNumber(),
 			randomY: generateRandomlyNumber()
 		}
-	for(let j = 0; j < squaresArray.length; j++ ){
-		let statusX = parseInt(squaresArray[j].dataset.row)=== vector.randomX;
-		let statusY = parseInt(squaresArray[j].dataset.col)=== vector.randomY;
-		if (statusX && statusY ){
-			squaresArray[j].classList.add(array[i].name);
+
+		if (array === playersArray) {
+			array[i].position.playerX = vector.randomX;
+			array[i].position.playerY = vector.randomY;
+			console.log(array[i].position)
+		}
+
+		for(let j = 0; j < squaresArray.length; j++ ){
+			let statusX = parseInt(squaresArray[j].dataset.row)=== vector.randomX;
+			let statusY = parseInt(squaresArray[j].dataset.col)=== vector.randomY;
+			if (statusX && statusY ){
+				squaresArray[j].classList.add(array[i].name);
 			}
 
 		}
+
 	}
 
 }
 
+let activePlayer = playersArray[0];
+
+
 $('.grid-container').on('click','.grid-item', function(){
-	console.log('square click :', $(this)[0].attribute[1].value);
+	let squareX = $(this)[0].attributes[1].value;
+	let squareY = $(this)[0].attributes[2].value;
+	let playerX = activePlayer.position.playerX;
+	let playerY = activePlayer.position.playerY;
+
+	console.log('square click :', squareX,squareY);
+	console.log('playerX , playerY', playerX, playerY);
+
+	let xDiff = Math.abs(squareX - playerX);
+	let yDiff = Math.abs(squareY - playerY);
+
+	let tempArray = [];
+	if (xDiff === 0) {
+		console.log('moving along y')
+		for(let i = 0; i < yDiff +1; i++){
+			let tempObj = {tempX: playerX, tempY: playerY+ i}
+			console.log('tempObj',tempObj)
+			tempArray.push(tempObj)
+			console.log('tempArray',tempArray)
+		}
+	}else{
+		console.log('moving along x')
+		for(let i = 0; i < xDiff +1; i ++){
+			let tempObj = {tempX: playerX + i, tempY: playerY}
+			console.log('tempObj',tempObj)
+			tempArray.push(tempObj)
+			console.log('tempArray',tempArray)
+		}
+	}
+
 });
 
 generateBarriers()
