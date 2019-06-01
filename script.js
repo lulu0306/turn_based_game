@@ -169,6 +169,15 @@ $('.grid-container').on('click','.grid-item', function(){
 	}
 });
 
+
+
+function movePlayers(){
+	
+}
+
+
+
+
 generateBarriers()
 createItems(weaponsArray)
 createItems(playersArray)
