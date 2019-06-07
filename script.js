@@ -23,20 +23,30 @@ function generateRandomlyNumber(){
 //declare an unavailable squares
 
 function generateBarriers(){
+	let vector;
 	for(let i =0; i < 9; i++){
-		let vector = {
+		vector = {
 			randomX: generateRandomlyNumber(),
 			randomY: generateRandomlyNumber()
 		}
+		const isAvalaible = $(`[data-row=${vector.randomX}][data-col=${vector.randomY}]`).hasClass('unavailable')
+		console.log('isAvalaible',isAvalaible)
+		if(!isAvalaible){
+			vector = {
+				randomX: generateRandomlyNumber(),
+				randomY: generateRandomlyNumber()
+			}
+		}
 
-		for(let j = 0; j < squaresArray.length; j++ ){
-			let statusX = parseInt(squaresArray[j].dataset.row)=== vector.randomX;
-			let statusY = parseInt(squaresArray[j].dataset.col)=== vector.randomY;
-			if (statusX && statusY ){
-				squaresArray[j].classList.add('unavailable');
+			for(let j = 0; j < squaresArray.length; j++ ){
+				let statusX = parseInt(squaresArray[j].dataset.row)=== vector.randomX;
+				let statusY = parseInt(squaresArray[j].dataset.col)=== vector.randomY;
+				if (statusX && statusY ){
+					squaresArray[j].classList.add('barrier','unavailable');
+				}
+
 			}
 
-		}
 	}
 }
 
@@ -47,50 +57,50 @@ function generateBarriers(){
 
 
 let weaponsArray = [
-{
-	name: 'sword',
-	power: 40,
-	img: ''
-},
-{
-	name: 'bomb1',
-	power: 30,
-	img: ''
-},
-{
-	name: 'bomb2',
-	power: 20,
-	img: ''
-},
-{
-	name: 'dinamite',
-	power: 10,
-	img: ''
-}
+	{
+		name: 'sword',
+		power: 40,
+		img: ''
+	},
+	{
+		name: 'bomb1',
+		power: 30,
+		img: ''
+	},
+	{
+		name: 'bomb2',
+		power: 20,
+		img: ''
+	},
+	{
+		name: 'dinamite',
+		power: 10,
+		img: ''
+	}
 ]
 
 
 
 
 const playersArray = [
-{
-	name: 'player1',
-	healthScore: 100,
-	img: '',
-	position: {
-		playerX: '',
-		playerY: ''
+	{
+		name: 'player1',
+		healthScore: 100,
+		img: '',
+		position: {
+			playerX: '',
+			playerY: ''
+		}
+	},
+	{
+		name: 'player2',
+		healthScore: 100,
+		img: '',
+		position: {
+			playerX: '',
+			playerY: ''
+		}
 	}
-},
-{
-	name: 'player2',
-	healthScore: 100,
-	img: '',
-	position: {
-		playerX: '',
-		playerY: ''
-	}
-}
 ]
 
 
@@ -112,7 +122,7 @@ function createItems(array){
 			let statusX = parseInt(squaresArray[j].dataset.row)=== vector.randomX;
 			let statusY = parseInt(squaresArray[j].dataset.col)=== vector.randomY;
 			if (statusX && statusY ){
-				squaresArray[j].classList.add(array[i].name);
+				squaresArray[j].classList.add(array[i].name,'unavailable');
 			}
 
 		}
@@ -120,6 +130,14 @@ function createItems(array){
 	}
 
 }
+
+
+/*function checkAvaliablility(vector){
+
+if () {}
+
+}*/
+
 
 let activePlayer = playersArray[0];
 
@@ -158,10 +176,18 @@ $('.grid-container').on('click','.grid-item', function(){
 			}
 		}
 
-	}else{
-		console.log('moving along x')
+	}else if(xDiff> 0){
+		console.log('moving along down')
 		for(let i = 1; i < xDiff +1; i ++){
 			let tempObj = {tempX: playerX + i, tempY: playerY}
+			console.log('tempObj',tempObj)
+			tempArray.push(tempObj)
+			console.log('tempArray',tempArray)
+		}
+	}else{
+		console.log('moving to up')
+		for(let i = 0; i < yDiff; i++){
+			let tempObj = {tempX: playerX, tempY: playerY+ i}
 			console.log('tempObj',tempObj)
 			tempArray.push(tempObj)
 			console.log('tempArray',tempArray)
@@ -169,11 +195,6 @@ $('.grid-container').on('click','.grid-item', function(){
 	}
 });
 
-
-
-function movePlayers(){
-	
-}
 
 
 
