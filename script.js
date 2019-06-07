@@ -202,3 +202,4 @@ $('.grid-container').on('click','.grid-item', function(){
 generateBarriers()
 createItems(weaponsArray)
 createItems(playersArray)
+
