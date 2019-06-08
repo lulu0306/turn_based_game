@@ -168,14 +168,14 @@ $('.grid-container').on('click','.grid-item', function(){
 
 		}else if (yDiff < 0){
 			console.log('moving to the left')
-			for(let i = 0; i < yDiff; i++){
-				let tempObj = {tempX: playerX, tempY: playerY+ i}
+			for(let i = 1; i < yDiff; i++){
+				let tempObj = {tempX: playerX, tempY: playerY- i}
 				console.log('tempObj',tempObj)
 				tempArray.push(tempObj)
 				console.log('tempArray',tempArray)
 			}
+		
 		}
-
 	}else if(xDiff> 0){
 		console.log('moving along down')
 		for(let i = 1; i < xDiff +1; i ++){
@@ -186,20 +186,35 @@ $('.grid-container').on('click','.grid-item', function(){
 		}
 	}else{
 		console.log('moving to up')
-		for(let i = 0; i < yDiff; i++){
-			let tempObj = {tempX: playerX, tempY: playerY+ i}
+		for(let i = 1; i < yDiff; i++){
+			let tempObj = {tempX: playerX - i, tempY: playerY}
 			console.log('tempObj',tempObj)
 			tempArray.push(tempObj)
 			console.log('tempArray',tempArray)
 		}
 	}
+
 });
 
 
+function down(){
+	
+	let xDiff = squareX - playerX;
+	let yDiff = squareY - playerY;
+	let playerX = activePlayer.position.playerX;
+	let playerY = activePlayer.position.playerY;
+	if(xDiff>0){
+		tempObj= {tempX: playerX + i, tempY: playerY}
+		if(square === isAvaliable){
+			square = PlayerX
+		}
+	}
+}
 
 
 
 generateBarriers()
 createItems(weaponsArray)
 createItems(playersArray)
+down()
 
