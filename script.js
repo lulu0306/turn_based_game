@@ -88,8 +88,8 @@ const playersArray = [
 		healthScore: 100,
 		img: '',
 		position: {
-			playerX: '',
-			playerY: ''
+			playerRow: '',
+			playerCol: ''
 		}
 	},
 	{
@@ -97,8 +97,8 @@ const playersArray = [
 		healthScore: 100,
 		img: '',
 		position: {
-			playerX: '',
-			playerY: ''
+			playerRow: '',
+			playerCol: ''
 		}
 	}
 ]
@@ -113,8 +113,8 @@ function createItems(array){
 		}
 
 		if (array === playersArray) {
-			array[i].position.playerX = vector.randomX;
-			array[i].position.playerY = vector.randomY;
+			array[i].position.playerRow = vector.randomX;
+			array[i].position.playerCol = vector.randomY;
 			console.log(array[i].position)
 		}
 
@@ -143,16 +143,19 @@ let activePlayer = playersArray[0];
 
 
 $('.grid-container').on('click','.grid-item', function(){
+	let $this = $(this)
+	let this2 = this
+	console.log('$this,this',$this,this2)
 	let squareX = $(this)[0].attributes[1].value;
 	let squareY = $(this)[0].attributes[2].value;
-	let playerX = activePlayer.position.playerX;
-	let playerY = activePlayer.position.playerY;
+	let playerRow = activePlayer.position.playerRow;
+	let playerCol = activePlayer.position.playerCol;
 
 	console.log('square click :', squareX,squareY);
-	console.log('playerX , playerY', playerX, playerY);
+	console.log('playerRow , playerCol', playerRow, playerCol);
 
-	let xDiff = squareX - playerX;
-	let yDiff = squareY - playerY;
+	let xDiff = squareX - playerRow;
+	let yDiff = squareY - playerCol;
 
 	let tempArray = [];
 	if (xDiff === 0) {
@@ -160,7 +163,7 @@ $('.grid-container').on('click','.grid-item', function(){
 		if(yDiff > 0) {
 			console.log('moving to the right')
 			for(let i = 1; i < yDiff +1; i++){
-				let tempObj = {tempX: playerX, tempY: playerY+ i}
+				let tempObj = {tempX: playerRow, tempY: playerCol+ i}
 				console.log('tempObj',tempObj)
 				tempArray.push(tempObj)
 				console.log('tempArray',tempArray)
@@ -169,7 +172,7 @@ $('.grid-container').on('click','.grid-item', function(){
 		}else if (yDiff < 0){
 			console.log('moving to the left')
 			for(let i = 1; i < yDiff; i++){
-				let tempObj = {tempX: playerX, tempY: playerY- i}
+				let tempObj = {tempX: playerRow, tempY: playerCol- i}
 				console.log('tempObj',tempObj)
 				tempArray.push(tempObj)
 				console.log('tempArray',tempArray)
@@ -179,7 +182,7 @@ $('.grid-container').on('click','.grid-item', function(){
 	}else if(xDiff> 0){
 		console.log('moving along down')
 		for(let i = 1; i < xDiff +1; i ++){
-			let tempObj = {tempX: playerX + i, tempY: playerY}
+			let tempObj = {tempX: playerRow + i, tempY: playerCol}
 			console.log('tempObj',tempObj)
 			tempArray.push(tempObj)
 			console.log('tempArray',tempArray)
@@ -187,28 +190,30 @@ $('.grid-container').on('click','.grid-item', function(){
 	}else{
 		console.log('moving to up')
 		for(let i = 1; i < yDiff; i++){
-			let tempObj = {tempX: playerX - i, tempY: playerY}
+			let tempObj = {tempX: playerRow - i, tempY: playerCol}
 			console.log('tempObj',tempObj)
 			tempArray.push(tempObj)
 			console.log('tempArray',tempArray)
 		}
 	}
 
+		movePlayer(tempArray,$this,this2)
+
 });
 
 
-function down(){
-	
-	let xDiff = squareX - playerX;
-	let yDiff = squareY - playerY;
-	let playerX = activePlayer.position.playerX;
-	let playerY = activePlayer.position.playerY;
-	if(xDiff>0){
-		tempObj= {tempX: playerX + i, tempY: playerY}
-		if(square === isAvaliable){
-			square = PlayerX
-		}
-	}
+
+
+
+function movePlayer(tempArray,$this,this2){
+	console.log('tempArray,$this,this2',tempArray,$this,this2);
+	$this.addClass(activePlayer.name).addClass('unavailable')
+	$(`[data-row=${activePlayer.position.playerRow}][data-col=${activePlayer.position.playerCol}]`).removeClass(activePlayer.name).removeClass('unavailable');
+	console.log('player before',activePlayer.position)
+	activePlayer.position.playerRow = $this.attr('data-row')
+	console.log("$this.attr('data-row')",$this.attr('data-row'))
+	activePlayer.position.playerCol = $this.attr('data-col')
+	console.log('player after',activePlayer.position)
 }
 
 
@@ -216,5 +221,5 @@ function down(){
 generateBarriers()
 createItems(weaponsArray)
 createItems(playersArray)
-down()
+
 
