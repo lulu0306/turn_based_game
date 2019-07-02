@@ -1,5 +1,4 @@
 //create a 10 by 10 board square
-
 let square;
 for (var i = 0; i < 10; i++) {
 	for (var j = 0; j < 10; j++) {
@@ -7,21 +6,16 @@ for (var i = 0; i < 10; i++) {
 		$('.grid-container').append(square)	
 	}
 }
-//create an array of grid-item div
 
+//create an array of grid-item div
 const squaresArray = $('.grid-item').toArray()
 
-
-
-
 //create unavalaible squares on the map 
-
 function generateRandomlyNumber(){
 	return Math.floor(Math.random()*10)
 }
 
 //declare an unavailable squares
-
 function generateBarriers(){
 	let vector;
 	for(let i =0; i < 9; i++){
@@ -37,25 +31,18 @@ function generateBarriers(){
 				randomY: generateRandomlyNumber()
 			}
 		}
-
 			for(let j = 0; j < squaresArray.length; j++ ){
 				let statusX = parseInt(squaresArray[j].dataset.row)=== vector.randomX;
 				let statusY = parseInt(squaresArray[j].dataset.col)=== vector.randomY;
 				if (statusX && statusY ){
 					squaresArray[j].classList.add('barrier','unavailable');
 				}
-
 			}
-
 	}
 }
 
 
-
 //create weapons 
-
-
-
 let weaponsArray = [
 	{
 		name: 'sword',
@@ -121,37 +108,24 @@ function createItems(array){
 			randomX: generateRandomlyNumber(),
 			randomY: generateRandomlyNumber()
 		}
-
 		if (array === playersArray) {
 			array[i].position.playerRow = vector.randomX;
 			array[i].position.playerCol = vector.randomY;
 			//console.log(array[i].position
-			squaresArray[j].classList.add(array[i].name,'unavailable');
+			squaresArray[j].classList.add(array[i].name, 'unavailable');
 			}
-
 		for(let j = 0; j < squaresArray.length; j++ ){
 			let statusX = parseInt(squaresArray[j].dataset.row)=== vector.randomX;
 			let statusY = parseInt(squaresArray[j].dataset.col)=== vector.randomY;
 			if (statusX && statusY ){
 				squaresArray[j].classList.add(array[i].name);
 			}
-
 		}
-
 	}
-
 }
 
 
-/*function checkAvaliablility(vector){
-
-if () {}
-
-}*/
-
-
 let activePlayer = playersArray[0];
-
 
 $('.grid-container').on('click','.grid-item', function(){
 	let $this = $(this)
@@ -161,13 +135,10 @@ $('.grid-container').on('click','.grid-item', function(){
 	let squareY = $(this)[0].attributes[2].value;
 	let playerRow = activePlayer.position.playerRow;
 	let playerCol = activePlayer.position.playerCol;
-
 	//console.log('square click :', squareX,squareY);
 	//console.log('playerRow , playerCol', playerRow, playerCol);
-
 	let xDiff = squareX - playerRow;
 	let yDiff = squareY - playerCol;
-
 	let tempArray = [];
 	if (xDiff === 0) {
 		//console.log('moving along y')
@@ -179,7 +150,6 @@ $('.grid-container').on('click','.grid-item', function(){
 				tempArray.push(tempObj)
 				//console.log('tempArray',tempArray)
 			}
-
 		}else if (yDiff < 0){
 			//console.log('moving to the left')
 			for(let i = 1; i < yDiff; i++){
@@ -188,7 +158,6 @@ $('.grid-container').on('click','.grid-item', function(){
 				tempArray.push(tempObj)
 				//console.log('tempArray',tempArray)
 			}
-		
 		}
 	}else if(xDiff> 0){
 		////console.log('moving along down')
@@ -207,11 +176,8 @@ $('.grid-container').on('click','.grid-item', function(){
 			//console.log('tempArray',tempArray)
 		}
 	}
-		activateBarriers(tempArray,$this)	
+	activateBarriers(tempArray,$this)	
 });
-
-
-
 
 
 function movePlayer(tempArray,$this){
@@ -225,13 +191,11 @@ function movePlayer(tempArray,$this){
 	activePlayer.position.playerCol = $this.attr('data-col')
 	////console.log('player after',activePlayer.position)
 }
-
-
  //define function
 function activateBarriers(tempArray,$this){
 	//  1. Select the square where the player move 
 	let newPlayerPos = $this;
-	console.log(newPlayerPos)
+	//console.log(newPlayerPos)
 	// 2. Check if the square has the class of unavailable 
 	let isNotAvalaible = newPlayerPos.hasClass('unavailable')
 	if (isNotAvalaible) {
@@ -243,39 +207,47 @@ function activateBarriers(tempArray,$this){
 		//console.log('available')
 		movePlayer(tempArray,$this)
 		pickUpWeapon($this)
+	 }
+}
+
+function bringWeaponsInfo(weapon){
+	console.log('weapon',weapon)
+	for(let i = 0; i < weaponsArray; i++){
+		if(weaponsArray.name === weapon){
+			return i
+		}else{
+			console.log('no weapon found ')
+		}
 	}
 }
 
 function pickUpWeapon($this){
 	// 2.it the square selected has class of weapon 
 	let hasWeapon = $this.hasClass('sword')||  $this.hasClass('bomb1') ||  $this.hasClass('bomb2') ||  $this.hasClass('dynamite')
-	let currentWeapon = playersArray[0].weapon.name 
-	console.log(currentWeapon)
-	if(hasWeapon) {
+	console.log(hasWeapon)
+	if(hasWeapon) { 
 		console.log('has a weapon ')
-		// 3.leave old weapon
-
-		// 4.the weapon is replaced with a new weapon
+		let currentWeapon = playersArray[0].weapon.name 
+		console.log(currentWeapon)
+		let clickWeapon = $this.attr('class').substr(10)
+		console.log('clickweapon', clickWeapon)
+		let weaponIndex = bringWeaponsInfo(clickWeapon)
+		console.log(weaponIndex)	
 	}else{
 		console.log('no weapon ')
-
-	}
-
- 
-
+	} 
 }
 
-
-
-
-
-
-
+// A) If the square clicked on is a weapon square, then
+//       1. look up the name of the weapon on that square and store in a *variable*
+//       2. look up the player's current weapon and store in a *variable*
+//       3. reassign the player their new weapon, including the weapon name, power,
+//          and image taken from the weapons object
+//      4. replace the weapon in the square with the payer's old weapon
+// B) If the square has no weapon, do nothing
 
 
 
 generateBarriers()
 createItems(weaponsArray)
 createItems(playersArray)
-
-
