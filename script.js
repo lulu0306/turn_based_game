@@ -6,7 +6,6 @@ for (var i = 0; i < 10; i++) {
 		$('.grid-container').append(square)	
 	}
 }
-
 //create an array of grid-item div
 const squaresArray = $('.grid-item').toArray()
 
@@ -14,7 +13,6 @@ const squaresArray = $('.grid-item').toArray()
 function generateRandomlyNumber(){
 	return Math.floor(Math.random()*10)
 }
-
 //declare an unavailable squares
 function generateBarriers(){
 	let vector;
@@ -67,8 +65,6 @@ let weaponsArray = [
 ]
 
 
-
-
 const playersArray = [
 	{
 		name: 'player1',
@@ -99,7 +95,6 @@ const playersArray = [
 	    }
 	}
 ]
-
 
 function createItems(array){
 	//console.log('array',array)
@@ -177,6 +172,7 @@ $('.grid-container').on('click','.grid-item', function(){
 		}
 	}
 	activateBarriers(tempArray,$this)	
+	checkMovementNumbers($this)
 });
 
 
@@ -184,8 +180,8 @@ function movePlayer(tempArray,$this){
 	pickUpWeapon($this)
 	////console.log('tempArray,$this,this2',tempArray,$this,this2);
 	$this.addClass(activePlayer.name).addClass('unavailable')
-	$(`[data-row=${activePlayer.position.playerRow}][data-col=${activePlayer.position.playerCol}]`).removeClass(activePlayer.name).removeClass('unavailable');
-	////console.log('player before',activePlayer.position)
+	let oldPos = $(`[data-row=${activePlayer.position.playerRow}][data-col=${activePlayer.position.playerCol}]`).removeClass(activePlayer.name).removeClass('unavailable');
+	//console.log('player before',activePlayer.position)
 	activePlayer.position.playerRow = $this.attr('data-row')
 	////console.log("$this.attr('data-row')",$this.attr('data-row'))
 	activePlayer.position.playerCol = $this.attr('data-col')
@@ -206,17 +202,16 @@ function activateBarriers(tempArray,$this){
 	// 4. If it doesn't then the player can move normal
 		//console.log('available')
 		movePlayer(tempArray,$this)
-		pickUpWeapon($this)
+		
 	 }
 }
 
 function bringWeaponsInfo(weapon){
 	console.log('weapon',weapon)
-	for(let i = 0; i < weaponsArray; i++){
-		if(weaponsArray.name === weapon){
+	for(let i = 0; i < weaponsArray.length; i++){
+		console.log(weaponsArray[i].name)
+		if(weaponsArray[i].name === weapon){
 			return i
-		}else{
-			console.log('no weapon found ')
 		}
 	}
 }
@@ -224,29 +219,78 @@ function bringWeaponsInfo(weapon){
 function pickUpWeapon($this){
 	// 2.it the square selected has class of weapon 
 	let hasWeapon = $this.hasClass('sword')||  $this.hasClass('bomb1') ||  $this.hasClass('bomb2') ||  $this.hasClass('dynamite')
-	console.log(hasWeapon)
+	//console.log(hasWeapon)
 	if(hasWeapon) { 
-		console.log('has a weapon ')
-		let currentWeapon = playersArray[0].weapon.name 
-		console.log(currentWeapon)
+		//console.log('has a weapon ')
+		let currentWeapon = activePlayer.weapon.name 
+		//console.log(currentWeapon)
 		let clickWeapon = $this.attr('class').substr(10)
-		console.log('clickweapon', clickWeapon)
+		//console.log('clickweapon', clickWeapon)
 		let weaponIndex = bringWeaponsInfo(clickWeapon)
-		console.log(weaponIndex)	
-	}else{
-		console.log('no weapon ')
+		//console.log(weaponIndex)
+		reassignWeapon(weaponIndex)	
+		dropOldWeapon(currentWeapon,$this,weaponIndex)
 	} 
 }
 
-// A) If the square clicked on is a weapon square, then
-//       1. look up the name of the weapon on that square and store in a *variable*
-//       2. look up the player's current weapon and store in a *variable*
-//       3. reassign the player their new weapon, including the weapon name, power,
-//          and image taken from the weapons object
-//      4. replace the weapon in the square with the payer's old weapon
-// B) If the square has no weapon, do nothing
+function reassignWeapon(weaponIndex){
+	// let currentWeapon = activePlayer.weapon.name
+	// let  clickWeapon = weaponsArray[weaponIndex].name
+	activePlayer.weapon.name = weaponsArray[weaponIndex].name
+	activePlayer.weapon.power = weaponsArray[weaponIndex].power
+	activePlayer.weapon.img = weaponsArray[weaponIndex].img
+	console.log(activePlayer)
+}
+
+function dropOldWeapon(currentWeapon,$this,weaponIndex){
+    $this.addClass(currentWeapon)
+    $this.removeClass( weaponsArray[weaponIndex].name)
+}
+
+// function setMaxMove(activePlayer,$this,newPlayerPos,oldPos){
+// 	//declare maximum player movements 
+// let maxMoves = 3
+//    // set players movement statement 
+// if(oldPos.yDiff === newPlayerPos.yDiff && newPlayerPos.xDiff <= oldPos.xDiff + maxMoves && newPlayerPos.xDiff >= oldPos.xDiff - maxMoves ||
+// 	oldPos.xDiff === newPlayerPos.xDiff && newPlayerPos.yDiff <= oldPos.yDiff + maxMoves && newPlayerPos.yDiff >= oldPos.xDiff - maxMoves){
+
+// }
+// }
 
 
+
+function checkMovementNumbers($this){
+	console.log('$this',$this)
+	let currentPosition = activePlayer.position	
+	console.log('currentPosition',currentPosition)
+	if(currentPosition.playerRow === $this[0].dataset.row){
+		console.log('row is the same ')
+		let differentCols =  parseInt(currentPosition.playerCol) -  parseInt($this[0].dataset.col)
+		console.log('differentCols',differentCols)
+		console.log(typeof  differentCols )
+
+	}
+}
+
+
+
+
+
+	// 3. get the player current position from player object in player array *
+    // 4. get player new position from players click *
+    // 5. check where the  player is moving and when is in colums or rows *
+		//   5.a  if player moving along colums 
+             //5.a.a checkplayer yCoor currentPos they are and yCoords newPos they want to move
+    // 6.write the condition for if the player clicked less then three squares         
+	// 6.a aloud the player to move 
+	//7. write the condition for  if the player clicked more then three squares  
+      //7.a show the player an alert where it says you cannot move more then three squares
+      	// 5.b if players moving along rows 
+      	// 5.b.b checkplayer yCoor currentPos they are and yCoords newPos they want to move 
+   //      6.write the condition for if the player clicked less then three squares
+   	//        6.a aloud the player to move 
+   	   	//      7. write the condition for  if the player clicked more then three squares 
+   	//       7.a show the player an alert where it says you cannot move more then three squares
 
 generateBarriers()
 createItems(weaponsArray)
