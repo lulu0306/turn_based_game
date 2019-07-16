@@ -172,8 +172,32 @@ $('.grid-container').on('click','.grid-item', function(){
 		}
 	}
 	activateBarriers(tempArray,$this)	
-	checkMovementNumbers($this)
+
 });
+
+
+
+function checkMovementNumbers($this){
+	console.log('$this',$this)
+	let currentPosition = activePlayer.position	
+	let maxMoves= 3
+	console.log('currentPosition',currentPosition)
+	if(currentPosition.playerRow === $this[0].dataset.row){
+		console.log('row is the same ')
+		let differentCols =  parseInt(currentPosition.playerCol) -  parseInt($this[0].dataset.col)
+		console.log(' parseInt(currentPosition.playerCol)',parseInt(currentPosition.playerCol))
+		console.log(' parseInt($this[0].dataset.col)', parseInt($this[0].dataset.col))
+		// console.log('differentCols',differentCols)
+		// console.log(typeof  differentCols )
+		if(differentCols <= maxMoves){
+			console.log('aloud the player to move')
+			return true
+		}else{
+			console.log('dont move more than three squares')
+			return false
+		}
+	}
+}
 
 
 function movePlayer(tempArray,$this){
@@ -201,7 +225,14 @@ function activateBarriers(tempArray,$this){
 	}else{
 	// 4. If it doesn't then the player can move normal
 		//console.log('available')
-		movePlayer(tempArray,$this)
+		let playerCanMove = checkMovementNumbers($this)
+		console.log('playerCanMove',playerCanMove)
+		if (playerCanMove == true) {
+		 movePlayer(tempArray,$this)
+		}else{
+			console.log('cant move')
+		}
+		
 		
 	 }
 }
@@ -259,18 +290,27 @@ function dropOldWeapon(currentWeapon,$this,weaponIndex){
 
 
 
-function checkMovementNumbers($this){
-	console.log('$this',$this)
-	let currentPosition = activePlayer.position	
-	console.log('currentPosition',currentPosition)
-	if(currentPosition.playerRow === $this[0].dataset.row){
-		console.log('row is the same ')
-		let differentCols =  parseInt(currentPosition.playerCol) -  parseInt($this[0].dataset.col)
-		console.log('differentCols',differentCols)
-		console.log(typeof  differentCols )
-
-	}
-}
+// function checkMovementNumbers($this){
+// 	console.log('$this',$this)
+// 	let currentPosition = activePlayer.position	
+// 	let maxMoves= 3
+// 	console.log('currentPosition',currentPosition)
+// 	if(currentPosition.playerRow === $this[0].dataset.row){
+// 		console.log('row is the same ')
+// 		let differentCols =  parseInt(currentPosition.playerCol) -  parseInt($this[0].dataset.col)
+// 		console.log(' parseInt(currentPosition.playerCol)',parseInt(currentPosition.playerCol))
+// 		console.log(' parseInt($this[0].dataset.col)', parseInt($this[0].dataset.col))
+// 		// console.log('differentCols',differentCols)
+// 		// console.log(typeof  differentCols )
+// 		if(differentCols <= maxMoves){
+// 			console.log('aloud the player to move')
+// 			return true
+// 		}else{
+// 			console.log('dont move more than three squares')
+// 			return false
+// 		}
+// 	}
+// }
 
 
 
