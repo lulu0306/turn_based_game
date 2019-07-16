@@ -201,7 +201,10 @@ function checkMovementNumbers($this){
 
 
 function movePlayer(tempArray,$this){
-	pickUpWeapon($this)
+	let canPlayerMove = checkMovementNumbers($this)
+	console.log('canPlayerMove',canPlayerMove)
+	if ( canPlayerMove) {
+		pickUpWeapon($this)
 	////console.log('tempArray,$this,this2',tempArray,$this,this2);
 	$this.addClass(activePlayer.name).addClass('unavailable')
 	let oldPos = $(`[data-row=${activePlayer.position.playerRow}][data-col=${activePlayer.position.playerCol}]`).removeClass(activePlayer.name).removeClass('unavailable');
@@ -210,6 +213,8 @@ function movePlayer(tempArray,$this){
 	////console.log("$this.attr('data-row')",$this.attr('data-row'))
 	activePlayer.position.playerCol = $this.attr('data-col')
 	////console.log('player after',activePlayer.position)
+	}
+	
 }
  //define function
 function activateBarriers(tempArray,$this){
@@ -225,13 +230,7 @@ function activateBarriers(tempArray,$this){
 	}else{
 	// 4. If it doesn't then the player can move normal
 		//console.log('available')
-		let playerCanMove = checkMovementNumbers($this)
-		console.log('playerCanMove',playerCanMove)
-		if (playerCanMove == true) {
-		 movePlayer(tempArray,$this)
-		}else{
-			console.log('cant move')
-		}
+		movePlayer(tempArray,$this);
 		
 		
 	 }
