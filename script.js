@@ -178,18 +178,12 @@ $('.grid-container').on('click','.grid-item', function(){
 
 
 function checkMovementNumbers($this){
-	console.log('$this',$this)
 	let currentPosition = activePlayer.position	
-	let maxMoves= 3
-	console.log('currentPosition',currentPosition)
 	if(currentPosition.playerRow === $this[0].dataset.row){
-		console.log('row is the same ')
 		let differentCols =  parseInt(currentPosition.playerCol) -  parseInt($this[0].dataset.col)
-		console.log(' parseInt(currentPosition.playerCol)',parseInt(currentPosition.playerCol))
-		console.log(' parseInt($this[0].dataset.col)', parseInt($this[0].dataset.col))
-		// console.log('differentCols',differentCols)
-		// console.log(typeof  differentCols )
-		if(differentCols <= maxMoves){
+		// console.log(' parseInt(currentPosition.playerCol)',parseInt(currentPosition.playerCol))
+		// console.log(' parseInt($this[0].dataset.col)', parseInt($this[0].dataset.col))
+		if(differentCols <= 3){
 			console.log('aloud the player to move')
 			return true
 		}else{
@@ -203,18 +197,11 @@ function checkMovementNumbers($this){
 function movePlayer(tempArray,$this){
 	let canPlayerMove = checkMovementNumbers($this)
 	console.log('canPlayerMove',canPlayerMove)
-	if ( canPlayerMove) {
-		pickUpWeapon($this)
-	////console.log('tempArray,$this,this2',tempArray,$this,this2);
+	pickUpWeapon($this)
 	$this.addClass(activePlayer.name).addClass('unavailable')
 	let oldPos = $(`[data-row=${activePlayer.position.playerRow}][data-col=${activePlayer.position.playerCol}]`).removeClass(activePlayer.name).removeClass('unavailable');
-	//console.log('player before',activePlayer.position)
 	activePlayer.position.playerRow = $this.attr('data-row')
-	////console.log("$this.attr('data-row')",$this.attr('data-row'))
 	activePlayer.position.playerCol = $this.attr('data-col')
-	////console.log('player after',activePlayer.position)
-	}
-	
 }
  //define function
 function activateBarriers(tempArray,$this){
