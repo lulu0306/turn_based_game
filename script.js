@@ -181,13 +181,27 @@ function checkMovementNumbers($this){
 	let currentPosition = activePlayer.position	
 	if(currentPosition.playerRow === $this[0].dataset.row){
 		let differentCols =  parseInt(currentPosition.playerCol) -  parseInt($this[0].dataset.col)
-		// console.log(' parseInt(currentPosition.playerCol)',parseInt(currentPosition.playerCol))
-		// console.log(' parseInt($this[0].dataset.col)', parseInt($this[0].dataset.col))
-		if(differentCols <= 3){
+		console.log(' parseInt(currentPosition.playerCol)',parseInt(currentPosition.playerCol))
+		console.log(' parseInt($this[0].dataset.col)', parseInt($this[0].dataset.col))
+
+		if(Math.abs(differentCols) <= 3 ){
 			console.log('aloud the player to move')
 			return true
 		}else{
 			console.log('dont move more than three squares')
+			return false
+		}
+	}
+
+	if(currentPosition.playerCol === $this[0].dataset.col){
+		let differentRows = parseInt(currentPosition.playerRow) - parseInt($this[0].dataset.col)
+		console.log('currentPosition.playerRow',currentPosition.playerRow)
+		console.log('$this[0].dataset.col',$this[0].dataset.col)
+		if(Math.abs(differentRows) <= 3){
+			console.log('aloud the player to move')
+			return true
+		}else{
+			console.log('dont move than three squares')
 			return false
 		}
 	}
@@ -196,12 +210,13 @@ function checkMovementNumbers($this){
 
 function movePlayer(tempArray,$this){
 	let canPlayerMove = checkMovementNumbers($this)
-	console.log('canPlayerMove',canPlayerMove)
-	pickUpWeapon($this)
-	$this.addClass(activePlayer.name).addClass('unavailable')
-	let oldPos = $(`[data-row=${activePlayer.position.playerRow}][data-col=${activePlayer.position.playerCol}]`).removeClass(activePlayer.name).removeClass('unavailable');
-	activePlayer.position.playerRow = $this.attr('data-row')
-	activePlayer.position.playerCol = $this.attr('data-col')
+		pickUpWeapon($this)
+		$this.addClass(activePlayer.name).addClass('unavailable')
+		let oldPos = $(`[data-row=${activePlayer.position.playerRow}][data-col=${activePlayer.position.playerCol}]`).removeClass(activePlayer.name).removeClass('unavailable');
+		activePlayer.position.playerRow = $this.attr('data-row')
+		activePlayer.position.playerCol = $this.attr('data-col')
+
+
 }
  //define function
 function activateBarriers(tempArray,$this){
