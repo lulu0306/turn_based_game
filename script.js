@@ -291,29 +291,6 @@ function dropOldWeapon(currentWeapon,$this,weaponIndex){
 
 
 
-// function checkMovementNumbers($this){
-// 	console.log('$this',$this)
-// 	let currentPosition = activePlayer.position	
-// 	let maxMoves= 3
-// 	console.log('currentPosition',currentPosition)
-// 	if(currentPosition.playerRow === $this[0].dataset.row){
-// 		console.log('row is the same ')
-// 		let differentCols =  parseInt(currentPosition.playerCol) -  parseInt($this[0].dataset.col)
-// 		console.log(' parseInt(currentPosition.playerCol)',parseInt(currentPosition.playerCol))
-// 		console.log(' parseInt($this[0].dataset.col)', parseInt($this[0].dataset.col))
-// 		// console.log('differentCols',differentCols)
-// 		// console.log(typeof  differentCols )
-// 		if(differentCols <= maxMoves){
-// 			console.log('aloud the player to move')
-// 			return true
-// 		}else{
-// 			console.log('dont move more than three squares')
-// 			return false
-// 		}
-// 	}
-// }
-
-
 
 
 
