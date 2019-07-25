@@ -8,7 +8,6 @@ for (var i = 0; i < 10; i++) {
 }
 //create an array of grid-item div
 const squaresArray = $('.grid-item').toArray()
-
 //create unavalaible squares on the map 
 function generateRandomlyNumber(){
 	return Math.floor(Math.random()*10)
@@ -35,7 +34,7 @@ function generateBarriers(){
 				if (statusX && statusY ){
 					squaresArray[j].classList.add('barrier','unavailable');
 				}
-			}
+		}
 	}
 }
 
@@ -172,19 +171,21 @@ $('.grid-container').on('click','.grid-item', function(){
 		}
 	}
 	activateBarriers(tempArray,$this)	
-
 });
 
-
-
 function checkMovementNumbers($this){
+	// console.log('$this',$this)
 	let currentPosition = activePlayer.position	
+	// console.log('currentPosition',currentPosition)
 	if(currentPosition.playerRow === $this[0].dataset.row){
+	// console.log('currentPosition.playerRow === $this[0].dataset.row',currentPosition.playerRow === $this[0].dataset.row)
 		let differentCols =  parseInt(currentPosition.playerCol) -  parseInt($this[0].dataset.col)
-		console.log(' parseInt(currentPosition.playerCol)',parseInt(currentPosition.playerCol))
-		console.log(' parseInt($this[0].dataset.col)', parseInt($this[0].dataset.col))
+		// console.log(differentCols)
+		// console.log(' parseInt(currentPosition.playerCol)',parseInt(currentPosition.playerCol))
+		// console.log(' parseInt($this[0].dataset.col)', parseInt($this[0].dataset.col))
 		if(Math.abs(differentCols) <= 3 ){
-			console.log('aloud the player to move')
+			// console.log('Math.abs(differentCols) <= 3 ',Math.abs(differentCols) <= 3 )
+			// console.log('aloud the player to move')
 			return true
 		}else{
 			console.log('dont move more than three squares')
@@ -192,11 +193,10 @@ function checkMovementNumbers($this){
 		}
 	}
 	if(currentPosition.playerCol === $this[0].dataset.col){
+		// console.log('currentPosition.playerCol === $this[0].dataset.col',currentPosition.playerCol === $this[0].dataset.col)
 		let differentRows = parseInt(currentPosition.playerRow) - parseInt($this[0].dataset.row)
-		console.log('currentPosition.playerRow',currentPosition.playerRow)
-		console.log('$this[0].dataset.col',$this[0].dataset.col)
 		if(Math.abs(differentRows) <= 3){
-			console.log('aloud the player to move')
+			// console.log('aloud the player to move')
 			return true
 		}else{
 			console.log('dont move than three squares')
@@ -205,19 +205,16 @@ function checkMovementNumbers($this){
 	}
 }
 
-
 function movePlayer(tempArray,$this){
 	let canPlayerMove = checkMovementNumbers($this)
-		if(canPlayerMove){
-		pickUpWeapon($this)
+	console.log('canPlayerMove',canPlayerMove)
 		$this.addClass(activePlayer.name).addClass('unavailable')
 		$(`[data-row=${activePlayer.position.playerRow}][data-col=${activePlayer.position.playerCol}]`).removeClass(activePlayer.name).removeClass('unavailable');
 		activePlayer.position.playerRow = $this.attr('data-row')
 		activePlayer.position.playerCol = $this.attr('data-col')
-}else{
-	console.log('player cant move')
-}
-}
+		pickUpWeapon($this)
+	}
+
  //define function
 function activateBarriers(tempArray,$this){
 	//  1. Select the square where the player move 
@@ -232,9 +229,7 @@ function activateBarriers(tempArray,$this){
 	}else{
 	// 4. If it doesn't then the player can move normal
 		//console.log('available')
-		movePlayer(tempArray,$this);
-		
-		
+		movePlayer(tempArray,$this);		
 	 }
 }
 
@@ -278,19 +273,6 @@ function dropOldWeapon(currentWeapon,$this,weaponIndex){
     $this.addClass(currentWeapon)
     $this.removeClass( weaponsArray[weaponIndex].name)
 }
-
-// function setMaxMove(activePlayer,$this,newPlayerPos,oldPos){
-// 	//declare maximum player movements 
-// let maxMoves = 3
-//    // set players movement statement 
-// if(oldPos.yDiff === newPlayerPos.yDiff && newPlayerPos.xDiff <= oldPos.xDiff + maxMoves && newPlayerPos.xDiff >= oldPos.xDiff - maxMoves ||
-// 	oldPos.xDiff === newPlayerPos.xDiff && newPlayerPos.yDiff <= oldPos.yDiff + maxMoves && newPlayerPos.yDiff >= oldPos.xDiff - maxMoves){
-
-// }
-// }
-
-
-
 
 
 
