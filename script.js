@@ -176,9 +176,12 @@ $('.grid-container').on('click','.grid-item', function(){
 function checkMovementNumbers($this){
 	// console.log('$this',$this)
 	let currentPosition = activePlayer.position	
-	// console.log('currentPosition',currentPosition)
-	if(currentPosition.playerRow === $this[0].dataset.row){
-	// console.log('currentPosition.playerRow === $this[0].dataset.row',currentPosition.playerRow === $this[0].dataset.row)
+	console.log('currentPosition',typeof currentPosition.playerRow)
+	console.log('typeof $this[0].dataset.row',typeof $this[0].dataset.row)
+	// let currenPositionRow = currenPosition.playerRow
+	// let currentPositionCol = currentPosition.PlayerCol
+	if(currentPosition.playerRow == $this[0].dataset.row){
+	// console.log('currentPosition.playerRow === $this[0].dataset.row', typeof currentPosition.playerRow === $this[0].dataset.row)
 		let differentCols =  parseInt(currentPosition.playerCol) -  parseInt($this[0].dataset.col)
 		// console.log(differentCols)
 		// console.log(' parseInt(currentPosition.playerCol)',parseInt(currentPosition.playerCol))
@@ -192,7 +195,7 @@ function checkMovementNumbers($this){
 			return false
 		}
 	}
-	if(currentPosition.playerCol === $this[0].dataset.col){
+	if(currentPosition.playerCol == $this[0].dataset.col){
 		// console.log('currentPosition.playerCol === $this[0].dataset.col',currentPosition.playerCol === $this[0].dataset.col)
 		let differentRows = parseInt(currentPosition.playerRow) - parseInt($this[0].dataset.row)
 		if(Math.abs(differentRows) <= 3){
@@ -205,15 +208,51 @@ function checkMovementNumbers($this){
 	}
 }
 
-function movePlayer(tempArray,$this){
+function barrierCheck($this){
+	
+	let playerCurrentCol = activePlayer.position.playerCol
+	let playerCurrentRow = activePlayer.position.playerRow
+	let clickSquareColum = $this[0].dataset.col
+	let clickSquareRow = $this[0].dataset.row	
+	// 1 iterate over the squares between the current position and the click square 
+  for(let i = Math.min(playerCurrentCol,clickSquareColum); i <= Math.max(playerCurrentCol,clickSquareColum); i++){
+		// 2 check the if the square has a class of barrier 
+	if(($this).hasClass('unavailable')){
+			
+	//  3.a if it have a class of barrier return false
+	   return false
+	 }else{		 
+	//   3.b if it have not return true 
+	   return true
+	  }
+	}
+
+   for(let i = Math.min(playerCurrentRow,clickSquareRow); i<= Math.max(playerCurrentRow,clickSquareRow); i++){
+	  if(($this).hasClass('unavailable')){
+		return false
+	  }else{
+		return true 
+	  }
+    }
+
+}
+
+
+
+function movePlayer($this){
 	let canPlayerMove = checkMovementNumbers($this)
 	console.log('canPlayerMove',canPlayerMove)
+	let barrierCheck = true
+	if(canPlayerMove && barrierCheck){
 		$this.addClass(activePlayer.name).addClass('unavailable')
 		$(`[data-row=${activePlayer.position.playerRow}][data-col=${activePlayer.position.playerCol}]`).removeClass(activePlayer.name).removeClass('unavailable');
 		activePlayer.position.playerRow = $this.attr('data-row')
 		activePlayer.position.playerCol = $this.attr('data-col')
 		pickUpWeapon($this)
+	}else{
+		console.log('player cant move')
 	}
+}
 
  //define function
 function activateBarriers(tempArray,$this){
