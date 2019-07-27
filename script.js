@@ -170,11 +170,12 @@ $('.grid-container').on('click','.grid-item', function(){
 			//console.log('tempArray',tempArray)
 		}
 	}
-	activateBarriers(tempArray,$this)	
+	activateBarriers(tempArray,$this)
+	
 });
 
 function checkMovementNumbers($this){
-	// console.log('$this',$this)
+	console.log('$this',$this)
 	let currentPosition = activePlayer.position	
 	console.log('currentPosition',typeof currentPosition.playerRow)
 	console.log('typeof $this[0].dataset.row',typeof $this[0].dataset.row)
@@ -196,7 +197,7 @@ function checkMovementNumbers($this){
 		}
 	}
 	if(currentPosition.playerCol == $this[0].dataset.col){
-		// console.log('currentPosition.playerCol === $this[0].dataset.col',currentPosition.playerCol === $this[0].dataset.col)
+		 console.log('currentPosition.playerCol == $this[0].dataset.col',currentPosition.playerCol == $this[0].dataset.col)
 		let differentRows = parseInt(currentPosition.playerRow) - parseInt($this[0].dataset.row)
 		if(Math.abs(differentRows) <= 3){
 			// console.log('aloud the player to move')
@@ -240,6 +241,7 @@ function barrierCheck($this){
 
 
 function movePlayer($this){
+	// console.log('$this',$this)
 	let canPlayerMove = checkMovementNumbers($this)
 	console.log('canPlayerMove',canPlayerMove)
 	let barrierCheck = true
@@ -252,10 +254,12 @@ function movePlayer($this){
 	}else{
 		console.log('player cant move')
 	}
+	
 }
 
  //define function
 function activateBarriers(tempArray,$this){
+	// console.log('$this',$this)
 	//  1. Select the square where the player move 
 	let newPlayerPos = $this;
 	//console.log(newPlayerPos)
@@ -268,7 +272,8 @@ function activateBarriers(tempArray,$this){
 	}else{
 	// 4. If it doesn't then the player can move normal
 		//console.log('available')
-		movePlayer(tempArray,$this);		
+		movePlayer(tempArray,$this);
+			
 	 }
 }
 
@@ -283,6 +288,7 @@ function bringWeaponsInfo(weapon){
 }
 
 function pickUpWeapon($this){
+	// console.log('$this',$this)
 	// 2.it the square selected has class of weapon 
 	let hasWeapon = $this.hasClass('sword')||  $this.hasClass('bomb1') ||  $this.hasClass('bomb2') ||  $this.hasClass('dynamite')
 	//console.log(hasWeapon)
