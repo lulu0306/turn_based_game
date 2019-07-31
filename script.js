@@ -125,8 +125,8 @@ $('.grid-container').on('click','.grid-item', function(){
 	let $this = $(this)
 	let this2 = this
 	//console.log('$this,this',$this,this2)
-	let squareX = $(this)[0].attributes[1].value;
-	let squareY = $(this)[0].attributes[2].value;
+	let squareX = parseInt($(this)[0].attributes[1].value);
+	let squareY = parseInt($(this)[0].attributes[2].value);
 	let playerRow = activePlayer.position.playerRow;
 	let playerCol = activePlayer.position.playerCol;
 	//console.log('square click :', squareX,squareY);
@@ -170,15 +170,16 @@ $('.grid-container').on('click','.grid-item', function(){
 			//console.log('tempArray',tempArray)
 		}
 	}
+	console.log('tempArray',tempArray)
 	activateBarriers(tempArray,$this)
 	
 });
 
 function checkMovementNumbers($this){
-	console.log('$this',$this)
+	// console.log('$this',$this)
 	let currentPosition = activePlayer.position	
-	console.log('currentPosition',typeof currentPosition.playerRow)
-	console.log('typeof $this[0].dataset.row',typeof $this[0].dataset.row)
+	// console.log('currentPosition',typeof currentPosition.playerRow)
+	// console.log('typeof $this[0].dataset.row',typeof $this[0].dataset.row)
 	// let currenPositionRow = currenPosition.playerRow
 	// let currentPositionCol = currentPosition.PlayerCol
 	if(currentPosition.playerRow == $this[0].dataset.row){
@@ -197,7 +198,7 @@ function checkMovementNumbers($this){
 		}
 	}
 	if(currentPosition.playerCol == $this[0].dataset.col){
-		 console.log('currentPosition.playerCol == $this[0].dataset.col',currentPosition.playerCol == $this[0].dataset.col)
+		//  console.log('currentPosition.playerCol == $this[0].dataset.col',currentPosition.playerCol == $this[0].dataset.col)
 		let differentRows = parseInt(currentPosition.playerRow) - parseInt($this[0].dataset.row)
 		if(Math.abs(differentRows) <= 3){
 			// console.log('aloud the player to move')
@@ -209,17 +210,20 @@ function checkMovementNumbers($this){
 	}
 }
 
-function barrierCheck($this){
-	
+function barrierCheck($this){	
 	let playerCurrentCol = activePlayer.position.playerCol
+	// console.log('playerCurrentCol',playerCurrentCol)
 	let playerCurrentRow = activePlayer.position.playerRow
+	// console.log('playerCurrentRow',playerCurrentRow)
 	let clickSquareColum = $this[0].dataset.col
+	// console.log('clickSquareColum',clickSquareColum)
 	let clickSquareRow = $this[0].dataset.row	
+	// console.log('clickSquareRow',clickSquareRow)
 	// 1 iterate over the squares between the current position and the click square 
   for(let i = Math.min(playerCurrentCol,clickSquareColum); i <= Math.max(playerCurrentCol,clickSquareColum); i++){
+	 console.log('Math.min(playerCurrentCol,clickSquareColum)',Math.min(playerCurrentCol,clickSquareColum)) 
 		// 2 check the if the square has a class of barrier 
-	if(($this).hasClass('unavailable')){
-			
+	if(($this).hasClass('unavailable')){		
 	//  3.a if it have a class of barrier return false
 	   return false
 	 }else{		 
@@ -227,8 +231,8 @@ function barrierCheck($this){
 	   return true
 	  }
 	}
-
    for(let i = Math.min(playerCurrentRow,clickSquareRow); i<= Math.max(playerCurrentRow,clickSquareRow); i++){
+	   console.log('Math.min(playerCurrentRow,clickSquareRow)',Math.min(playerCurrentRow,clickSquareRow))
 	  if(($this).hasClass('unavailable')){
 		return false
 	  }else{
@@ -238,14 +242,12 @@ function barrierCheck($this){
 
 }
 
-
-
 function movePlayer($this){
 	// console.log('$this',$this)
 	let canPlayerMove = checkMovementNumbers($this)
-	console.log('canPlayerMove',canPlayerMove)
-	let barrierCheck = true
-	if(canPlayerMove && barrierCheck){
+	let barrierChecked = barrierCheck($this)
+	// console.log('canPlayerMove',canPlayerMove)
+	if(canPlayerMove && barrierChecked){
 		$this.addClass(activePlayer.name).addClass('unavailable')
 		$(`[data-row=${activePlayer.position.playerRow}][data-col=${activePlayer.position.playerCol}]`).removeClass(activePlayer.name).removeClass('unavailable');
 		activePlayer.position.playerRow = $this.attr('data-row')
@@ -272,7 +274,7 @@ function activateBarriers(tempArray,$this){
 	}else{
 	// 4. If it doesn't then the player can move normal
 		//console.log('available')
-		movePlayer(tempArray,$this);
+		movePlayer($this);
 			
 	 }
 }
